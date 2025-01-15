@@ -1,15 +1,12 @@
-export async function GET(req) {
-    const url = req.nextUrl.searchParams 
-    const action = url.get('a')
-    const qry = url.get('q')
+export async function GET(req, {params}) {
+    const {slug} = await params
+    let res = {ok: false, message: 'Invalid Request'}
 
-    let res = {message: 'Invalid Request', products: []}
-
-    if (action === 'get') {
-        if (qry === 'products') {
-            res = {
-                message: '',
-                "products": [
+    if (slug === 'products') {
+        res = {
+            ok: true,
+            message: '',
+            "products": [
                 {
                     "id": 1, "title": "Essence Mascara Lash Princess", "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.","category": "beauty", "price": 9.99, "discountPercentage": 7.17, "rating": 4.94, "stock": 5, 
                     "tags": [ "beauty", "mascara" ],
@@ -115,15 +112,8 @@ export async function GET(req) {
                     "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png"
                 }
             ]
-            }
         }
     }
-    
 
     return Response.json(res)
-}
-
-
-export function POST() {
-
 }

@@ -6,7 +6,9 @@ export default async function Products() {
     // await = promise가 해결되기 전까지 대기, async 내부에서만 사용 가능
 
     const getProducts = async () => {
-        const res = await fetch('http://localhost:3000/api/')
+        const res = await fetch('http://localhost:3000/api/products',
+            {next: {revalidate : 10}}
+        )
         return res.json()
     }
 
@@ -16,9 +18,12 @@ export default async function Products() {
         <>
 
         <h1>Products</h1>
+        <div className="p-4 text-gray-100">
+            {data?.message}
+        </div>
         <ul className="grid grid-cols-4 gap-4 items-center">
             {
-                data.products.map( (item, index) => (
+                data?.products.map( (item, index) => (
                     <li className="w-52 mx-4" key={index}>
                         <img src={item.thumbnail} alt={item.title} />
                         <div className="p-2 text-sm text-black bg-gray-400">
